@@ -1,8 +1,8 @@
 {
-  "name": "@nestjs/schematics",
-  "version": "6.7.0",
+  "name": "@nestjsplus/schematics-utils",
+  "version": "1.0.2",
   "description": "Nest - modern, fast, powerful node.js web framework (@schematics)",
-  "main": "index.js",
+  "main": "dist/index.js",
   "publishConfig": {
     "access": "public"
   },
@@ -20,6 +20,10 @@
   "contributors": [
     "ThomRick",
     "Kamil Mysliwiec"
+  ],
+  "files": [
+    "dist/utils/**/*.{js,d.ts}",
+    "dist/lib/defaults.*"
   ],
   "license": "MIT",
   "bugs": {

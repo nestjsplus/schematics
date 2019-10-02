@@ -6,6 +6,6 @@
     "outDir": "dist",
     "declaration": true
   },
-  "include": ["src/utils", "src/lib"],
+  "include": ["src/utils", "src/lib", "src/index.ts"],
   "exclude": ["node_modules", "src/**/*.test.ts", "src/**/files/**"]
 }
