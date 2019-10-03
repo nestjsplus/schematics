@@ -4,7 +4,7 @@ import { DEFAULT_PATH_NAME } from '../lib/defaults';
 
 export function isInRootDirectory(
   host: Tree,
-  extraFiles: string[] = [],
+  extraFiles: string[] = []
 ): boolean {
   const files = ['nest-cli.json', 'nest.json'].concat(extraFiles || []);
   return files.map(file => host.exists(file)).some(isPresent => isPresent);
@@ -15,16 +15,20 @@ export function mergeSourceRoot<
 >(options: T): Rule {
   return (host: Tree) => {
     const isInRoot = isInRootDirectory(host, ['tsconfig.json', 'package.json']);
+    console.log('isInRoot: ', isInRoot);
     if (!isInRoot) {
       return host;
     }
     const defaultSourceRoot =
       options.sourceRoot !== undefined ? options.sourceRoot : DEFAULT_PATH_NAME;
 
-    options.path =
+    console.log('defaultSourceRoot: ', defaultSourceRoot);
+    const computedPath =
       options.path !== undefined
         ? join(normalize(defaultSourceRoot), options.path)
         : normalize(defaultSourceRoot);
+    console.log('computedPath: ', computedPath);
+    options.path = computedPath;
     return host;
   };
 }

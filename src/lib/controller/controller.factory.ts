@@ -73,10 +73,7 @@ function addDeclarationToModule(options: ControllerOptions): Rule {
     if (options.skipImport !== undefined && options.skipImport) {
       return tree;
     }
-    options.module = new ModuleFinder(tree).find({
-      name: options.name,
-      path: options.path as Path,
-    });
+    options.module = new ModuleFinder(tree).find(options.path as Path);
     if (!options.module) {
       return tree;
     }

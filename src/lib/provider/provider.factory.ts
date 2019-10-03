@@ -31,7 +31,7 @@ export function main(options: ProviderOptions): Rule {
         mergeSourceRoot(options),
         addDeclarationToModule(options),
         mergeWith(generate(options)),
-      ]),
+      ])
     )(tree, context);
   };
 }
@@ -71,10 +71,7 @@ function addDeclarationToModule(options: ProviderOptions): Rule {
     if (options.skipImport !== undefined && options.skipImport) {
       return tree;
     }
-    options.module = new ModuleFinder(tree).find({
-      name: options.name,
-      path: options.path as Path,
-    });
+    options.module = new ModuleFinder(tree).find(options.path as Path);
     if (!options.module) {
       return tree;
     }
@@ -82,7 +79,7 @@ function addDeclarationToModule(options: ProviderOptions): Rule {
     const declarator: ModuleDeclarator = new ModuleDeclarator();
     tree.overwrite(
       options.module,
-      declarator.declare(content, options as DeclarationOptions),
+      declarator.declare(content, options as DeclarationOptions)
     );
     return tree;
   };

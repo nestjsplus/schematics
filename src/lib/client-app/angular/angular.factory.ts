@@ -1,4 +1,4 @@
-import { strings } from '@angular-devkit/core';
+import { strings, Path } from '@angular-devkit/core';
 import {
   apply,
   branchAndMerge,
@@ -15,7 +15,6 @@ import {
 } from '@angular-devkit/schematics';
 import { join } from 'path';
 import * as ts from 'ts-morph';
-import { Path } from 'typescript';
 import {
   DeclarationOptions,
   ModuleDeclarator,
@@ -36,7 +35,7 @@ export function main(options: AngularOptions): Rule {
         addDeclarationToModule(options),
         addGlobalPrefix(),
         mergeWith(generate(options)),
-      ]),
+      ])
     )(tree, context);
   };
 }
@@ -77,10 +76,7 @@ function createAngularApplication(options: AngularOptions): Rule {
 
 function addDeclarationToModule(options: AngularOptions): Rule {
   return (tree: Tree) => {
-    options.module = new ModuleFinder(tree).find({
-      name: options.name,
-      path: options.path as any,
-    });
+    options.module = new ModuleFinder(tree).find(options.path as Path);
     if (!options.module) {
       return tree;
     }
@@ -100,7 +96,7 @@ function addDeclarationToModule(options: AngularOptions): Rule {
     } as unknown) as DeclarationOptions;
     tree.overwrite(
       options.module,
-      declarator.declare(content, declarationOptions),
+      declarator.declare(content, declarationOptions)
     );
     return tree;
   };
@@ -121,10 +117,10 @@ function addGlobalPrefix(): Rule {
     const tsFile = tsProject.addExistingSourceFile(mainFilePath);
     const bootstrapFunction = tsFile.getFunction('bootstrap');
     const listenStatement = bootstrapFunction.getStatement(node =>
-      node.getText().includes('listen'),
+      node.getText().includes('listen')
     );
     const setPrefixStatement = bootstrapFunction.getStatement(node =>
-      node.getText().includes('setGlobalPrefix'),
+      node.getText().includes('setGlobalPrefix')
     );
     if (!listenStatement || setPrefixStatement) {
       return tree;
@@ -132,7 +128,7 @@ function addGlobalPrefix(): Rule {
     const listenExprIndex = listenStatement.getChildIndex();
     bootstrapFunction.insertStatements(
       listenExprIndex,
-      `app.setGlobalPrefix('api');`,
+      `app.setGlobalPrefix('api');`
     );
     tree.overwrite(mainFilePath, tsFile.getFullText());
     return tree;
