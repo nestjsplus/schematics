@@ -11,7 +11,8 @@
     "lint:src": "tslint --project tsconfig.json",
     "lint:test": "tslint --project test/tsconfig.json",
     "test": "NODE_ENV=test jest --no-cache --config test/jest-config.json",
-    "test:dev": "NODE_ENV=test npm run -s test -- --watchAll"
+    "test:dev": "NODE_ENV=test npm run -s test -- --watchAll",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
